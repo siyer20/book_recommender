@@ -11,3 +11,20 @@ Stages:
 3. data preparation for feature engineering
 4. build rudimentary recommender
 5. test, evaluate, improve
+
+Organization:
+
+book-recommender/
+├── data/
+│   ├── books.csv
+│   └── processed/
+│       ├── books_clean.csv
+│       ├── book_genre_features.csv
+│       ├── book_description_features.npz
+│       └── book_combined_features.npz
+├── notebooks/
+│   ├── 01_explore_books.ipynb
+│   ├── 02_clean_books.ipynb
+│   ├── 03_feature_engineering.ipynb
+│   └── 04_build_recommender.ipynb
+└── requirements.txt
