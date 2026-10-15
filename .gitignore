@@ -1,0 +1,46 @@
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ---------- Environments ----------
+.venv/
+venv/
+env/
+.conda/
+
+# ---------- Data (large, regenerable) ----------
+data/raw/
+data/processed/*
+!data/processed/.gitkeep
+!data/processed/books_sample.csv
+data/artifacts/
+!data/artifacts/.gitkeep
+
+# ---------- Logs ----------
+logs/
+!logs/.gitkeep
+
+# ---------- Evaluation ----------
+evaluation/*.json
+
+# ---------- Secrets ----------
+.env
+*.key
+
+# ---------- OS / Editor ----------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# ---------- Notebooks ----------
+.ipynb_checkpoints/
