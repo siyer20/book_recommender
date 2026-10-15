@@ -1,0 +1,16 @@
+certifi==2026.7.22
+charset-normalizer==3.5.2
+idna==3.20
+numpy @ file:///Users/runner/miniforge3/conda-bld/bld/rattler-build_numpy_1770098381/work/dist/numpy-2.4.2-cp311-cp311-macosx_10_13_x86_64.whl
+pandas==3.0.6
+pip @ file:///home/task_178792879927882/croot/pip_1787928831568/work
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.4
+pyyaml==6.0.3
+requests==2.34.2
+setuptools==78.1.1
+six==1.17.0
+tqdm==4.70.1
+urllib3==2.8.0
+uv==0.13.1
+wheel==0.45.1
