@@ -14,3 +14,8 @@
 | `api/` | FastAPI service (Phase 4). |
 | `app/` | Streamlit UI (Phase 5). |
 | `docs/` | Architecture docs, schema docs, evaluation writeups (Phase 7). |
+
+
+**Why `data/raw/` is fully ignored but `data/processed/` has exceptions:** raw data is fully regenerable and never useful to commit. Processed data is also regenerable, but you may want to commit a small sample (`books_sample.csv`) for reference and for testing in CI. The `.gitkeep` files keep the empty directories present in git.
+
+**Why `evaluation/*.json` is ignored:** evaluation results are reproducible from a fixed dataset and config. Committing them creates noise. The evaluation report (Phase 7) will summarize them in a Markdown file that *is* committed.
