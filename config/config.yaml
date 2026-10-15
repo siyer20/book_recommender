@@ -1,0 +1,222 @@
+# ============================================================
+# Book Recommender — Configuration
+# ============================================================
+# All tunable behavior lives here. Anything in this file can
+# be changed without editing code. See docs/schema.md (Phase 7)
+# for a description of every key.
+#
+# After editing this file, re-run:
+#   python -m src.pipeline
+# ============================================================
+
+# ---------- Paths ----------
+# All paths are relative to the repository root.
+paths:
+  data_raw: data/raw
+  data_processed: data/processed
+  data_artifacts: data/artifacts
+  logs: logs
+  seeds_file: data/raw/seeds.json
+  enriched_file: data/raw/enriched.jsonl
+  books_file: data/processed/books_v1.parquet
+  classics_whitelist: config/classics_whitelist.csv
+  log_file: logs/pipeline.log
+  runs_dir: logs/runs
+
+# ---------- Sources ----------
+# Which APIs to fetch from, and how aggressively.
+sources:
+  open_library:
+    base_url: "https://openlibrary.org/search.json"
+    page_size: 100
+    max_per_subject: 500
+    request_timeout_seconds: 20
+    sleep_between_requests_seconds: 0.3
+  google_books:
+    base_url: "https://www.googleapis.com/books/v1/volumes"
+    request_timeout_seconds: 15
+    sleep_between_requests_seconds: 0.15
+    max_retries_on_429: 1
+    retry_delay_seconds: 5
+
+# ---------- Open Library Subjects ----------
+# Each subject is queried separately. Results are deduplicated
+# across subjects by Open Library key.
+subjects:
+  - fantasy
+  - science_fiction
+  - mystery
+  - romance
+  - thriller
+  - historical_fiction
+  - horror
+  - literary_fiction
+  - biography
+  - history
+  - science
+  - philosophy
+  - psychology
+  - business
+  - self_help
+  - young_adult
+  - children
+  - poetry
+  - drama
+  - classics
+
+# ---------- Genre Taxonomy ----------
+# Maps raw subject strings from Open Library and Google Books
+# to a controlled vocabulary. Keys are matched as exact tokens
+# (lowercased, trimmed) — NOT substring matches.
+#
+# To add a genre: add entries to both `aliases` (raw strings)
+# and `canonical` (the normalized name).
+taxonomy:
+  genre:
+    aliases:
+      # raw_string: canonical_genre
+      "fantasy": "fantasy"
+      "fantasy fiction": "fantasy"
+      "epic fantasy": "fantasy"
+      "science fiction": "science_fiction"
+      "sci-fi": "science_fiction"
+      "science-fiction": "science_fiction"
+      "sf": "science_fiction"
+      "mystery": "mystery"
+      "detective": "mystery"
+      "detective fiction": "mystery"
+      "cozy mystery": "mystery"
+      "romance": "romance"
+      "romantic fiction": "romance"
+      "historical romance": "romance"
+      "thriller": "thriller"
+      "suspense": "thriller"
+      "espionage": "thriller"
+      "spy fiction": "thriller"
+      "horror": "horror"
+      "gothic": "horror"
+      "historical fiction": "historical_fiction"
+      "historical novel": "historical_fiction"
+      "biography": "biography"
+      "autobiography": "biography"
+      "memoir": "biography"
+      "history": "history"
+      "science": "science"
+      "popular science": "science"
+      "philosophy": "philosophy"
+      "psychology": "psychology"
+      "business": "business"
+      "economics": "business"
+      "self-help": "self_help"
+      "self help": "self_help"
+      "young adult": "young_adult"
+      "ya": "young_adult"
+      "juvenile fiction": "young_adult"
+      "children": "children"
+      "children's fiction": "children"
+      "picture book": "children"
+      "poetry": "poetry"
+      "poems": "poetry"
+      "drama": "drama"
+      "plays": "drama"
+      "classics": "classics"
+      "classic literature": "classics"
+      "literary fiction": "literary_fiction"
+      "literature": "literary_fiction"
+
+  # The full set of canonical genre names. Used to validate
+  # that every value in `aliases` maps to something in this list.
+  canonical_genres:
+    - fantasy
+    - science_fiction
+    - mystery
+    - romance
+    - thriller
+    - horror
+    - historical_fiction
+    - biography
+    - history
+    - science
+    - philosophy
+    - psychology
+    - business
+    - self_help
+    - young_adult
+    - children
+    - poetry
+    - drama
+    - classics
+    - literary_fiction
+
+  # Mood/atmosphere tags. Used in Phase 2 for zero-shot
+  # classification of book descriptions. Placeholder here so
+  # config is complete; populated in Phase 2.
+  mood_tags:
+    - cozy
+    - dark
+    - tense
+    - hopeful
+    - melancholic
+    - whimsical
+    - epic
+    - intimate
+    - satirical
+    - romantic
+    - bleak
+    - uplifting
+    - suspenseful
+    - contemplative
+    - fast_paced
+    - slow_burn
+    - atmospheric
+    - character_driven
+    - plot_driven
+    - philosophical
+
+# ---------- Filters ----------
+# Rules for which books make it into the final dataset.
+filters:
+  # Only include books with this language code. Multilingual
+  # support in a future version would change this to a list.
+  language: "eng"
+
+  # Books published before `modern_cutoff_year` must either be
+  # on the classics whitelist OR have >= `older_book_min_ratings`
+  # ratings. Books published on or after the cutoff bypass this
+  # check entirely (they're filtered by other means).
+  modern_cutoff_year: 1980
+  older_book_min_ratings: 500
+
+  # Page count sanity bounds. Books outside this range are
+  # likely data errors (misparsed, or omnibus editions).
+  page_count_min: 20
+  page_count_max: 2000
+
+  # Rating sanity bounds.
+  rating_min: 1.0
+  rating_max: 5.0
+
+# ---------- UI Defaults ----------
+# Values the recommender API and UI use as defaults. Users can
+# override these per-request; the API reads defaults from here.
+ui:
+  default_top_n: 10
+
+  # Ratings controls. See `help_text` below for what the user
+  # sees when hovering over the hard/soft slider.
+  ratings_default_sort: "none"    # one of: none, highest_first, lowest_first
+  ratings_default_filter_mode: "soft"  # one of: off, hard, soft
+  ratings_default_threshold: 3.5
+
+  help_text:
+    filter_mode_off: "Ratings are not used to filter or rank results."
+    filter_mode_hard: "Books below the rating threshold are excluded from results entirely."
+    filter_mode_soft: "Books below the rating threshold are down-weighted but can still appear if they are a strong match."
+    sort_highest_first: "Results are reordered so the highest-rated books appear first."
+    sort_lowest_first: "Results are reordered so the lowest-rated books appear first."
+
+# ---------- Logging ----------
+logging:
+  level: "INFO"           # DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+  date_format: "%Y-%m-%d %H:%M:%S"
