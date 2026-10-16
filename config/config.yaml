@@ -126,52 +126,52 @@ taxonomy:
 
   # The full set of canonical genre names. Used to validate
   # that every value in `aliases` maps to something in this list.
-  canonical_genres:
-    - fantasy
-    - science_fiction
-    - mystery
-    - romance
-    - thriller
-    - horror
-    - historical_fiction
-    - biography
-    - history
-    - science
-    - philosophy
-    - psychology
-    - business
-    - self_help
-    - young_adult
-    - children
-    - poetry
-    - drama
-    - classics
-    - literary_fiction
+    canonical_genres:
+      - fantasy
+      - science_fiction
+      - mystery
+      - romance
+      - thriller
+      - horror
+      - historical_fiction
+      - biography
+      - history
+      - science
+      - philosophy
+      - psychology
+      - business
+      - self_help
+      - young_adult
+      - children
+      - poetry
+      - drama
+      - classics
+      - literary_fiction
 
-  # Mood/atmosphere tags. Used in Phase 2 for zero-shot
-  # classification of book descriptions. Placeholder here so
-  # config is complete; populated in Phase 2.
-  mood_tags:
-    - cozy
-    - dark
-    - tense
-    - hopeful
-    - melancholic
-    - whimsical
-    - epic
-    - intimate
-    - satirical
-    - romantic
-    - bleak
-    - uplifting
-    - suspenseful
-    - contemplative
-    - fast_paced
-    - slow_burn
-    - atmospheric
-    - character_driven
-    - plot_driven
-    - philosophical
+    # Mood/atmosphere tags. Used in Phase 2 for zero-shot
+    # classification of book descriptions. Placeholder here so
+    # config is complete; populated in Phase 2.
+    mood_tags:
+      - cozy
+      - dark
+      - tense
+      - hopeful
+      - melancholic
+      - whimsical
+      - epic
+      - intimate
+      - satirical
+      - romantic
+      - bleak
+      - uplifting
+      - suspenseful
+      - contemplative
+      - fast_paced
+      - slow_burn
+      - atmospheric
+      - character_driven
+      - plot_driven
+      - philosophical
 
 # ---------- Filters ----------
 # Rules for which books make it into the final dataset.
